@@ -1,33 +1,55 @@
+'use client';
+
 import '@/app/globals.css';
 import Link from 'next/link';
 import { CartProvider } from '@/context/CartContext';
-import { AuthProvider } from '@/context/AuthContext'; // 1. Add AuthProvider import
+import { AuthProvider, useAuth } from '@/context/AuthContext';
+import { supabase } from '@/lib/supabaseClient';
 
-export const metadata = {
-  title: 'Atelier - Handsewn Women Clothing',
-  description: 'Custom-tailored and pre-made garments made to order.',
-};
+function HeaderNav() {
+  const { user } = useAuth();
+
+  const handleSignOut = async () => {
+    await supabase.auth.signOut();
+    window.location.reload();
+  };
+
+  return (
+    <nav className="flex items-center gap-6 text-sm font-medium">
+      <Link href="/" className="hover:text-gray-600">Catalog</Link>
+      <Link href="/cart" className="hover:text-gray-600">Cart & Track</Link>
+      <Link href="/admin" className="text-xs border border-black px-2.5 py-1 rounded hover:bg-black hover:text-white transition">
+        Admin Panel
+      </Link>
+      
+      {user ? (
+        <button
+          onClick={handleSignOut}
+          className="text-xs text-red-600 hover:text-red-800 font-medium"
+        >
+          Sign Out
+        </button>
+      ) : (
+        <Link href="/login" className="text-xs font-semibold text-slate-900 underline">
+          Sign In
+        </Link>
+      )}
+    </nav>
+  );
+}
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
       <body className="bg-slate-50 text-slate-900 flex flex-col min-h-screen">
-        {/* 2. Wrap app in AuthProvider */}
         <AuthProvider>
           <CartProvider>
-            {/* Main Navigation */}
             <header className="sticky top-0 z-40 bg-white/80 backdrop-blur-md border-b">
               <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
                 <Link href="/" className="text-xl font-bold tracking-widest uppercase">
                   Atelier
                 </Link>
-                <nav className="flex items-center gap-6 text-sm font-medium">
-                  <Link href="/" className="hover:text-gray-600">Catalog</Link>
-                  <Link href="/cart" className="hover:text-gray-600">Cart & Track</Link>
-                  <Link href="/admin" className="text-xs border border-black px-2.5 py-1 rounded hover:bg-black hover:text-white transition">
-                    Admin Panel
-                  </Link>
-                </nav>
+                <HeaderNav />
               </div>
             </header>
 

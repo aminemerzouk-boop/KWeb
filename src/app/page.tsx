@@ -32,11 +32,10 @@ export default function HomePage() {
       <div className="flex items-center gap-2 overflow-x-auto pb-2 border-b">
         <button
           onClick={() => setSelectedCategoryId(undefined)}
-          className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition ${
-            selectedCategoryId === undefined
+          className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition ${selectedCategoryId === undefined
               ? 'bg-black text-white'
               : 'bg-white border text-gray-700 hover:border-gray-400'
-          }`}
+            }`}
         >
           All Items
         </button>
@@ -44,11 +43,10 @@ export default function HomePage() {
           <button
             key={cat.id}
             onClick={() => setSelectedCategoryId(cat.id)}
-            className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition ${
-              selectedCategoryId === cat.id
+            className={`px-4 py-2 rounded-full text-xs font-semibold whitespace-nowrap transition ${selectedCategoryId === cat.id
                 ? 'bg-black text-white'
                 : 'bg-white border text-gray-700 hover:border-gray-400'
-            }`}
+              }`}
           >
             {cat.name}
           </button>
@@ -80,9 +78,8 @@ export default function HomePage() {
             <div
               key={p.id}
               onClick={() => setSelectedProduct(p)}
-              className={`cursor-pointer border rounded-lg p-3 bg-white transition hover:shadow-md ${
-                selectedProduct?.id === p.id ? 'ring-2 ring-black' : ''
-              }`}
+              className={`cursor-pointer border rounded-lg p-3 bg-white transition hover:shadow-md ${selectedProduct?.id === p.id ? 'ring-2 ring-black' : ''
+                }`}
             >
               <div className="aspect-[3/4] relative bg-gray-100 rounded overflow-hidden mb-2">
                 {p.variants?.[0]?.images?.[0] && (
@@ -93,9 +90,10 @@ export default function HomePage() {
                   />
                 )}
               </div>
-              <h3 className="font-semibold text-xs truncate">{p.title}</h3>
-              <p className="text-xs text-gray-600 mt-0.5">${p.basePrice.toFixed(2)}</p>
-            </div>
+              <h3 className="font-semibold text-xs truncate">{p.name || p.title || 'Untitled Product'}</h3>
+              <p className="text-xs text-gray-600 mt-0.5">
+                ${Number(p.price ?? p.basePrice ?? 0).toFixed(2)}
+              </p>            </div>
           ))}
         </div>
       </div>
