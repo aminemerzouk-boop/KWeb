@@ -42,3 +42,15 @@ export interface CartItem {
   quantity: number;
   price: number;
 }
+
+export interface Order {
+  id: string;
+  user_id: string;
+  status: 'pending' | 'processing' | 'shipped' | 'delivered';
+  total_amount: number;
+  customer_name: string;
+  customer_phone: string;
+  shipping_address: string;
+  created_at: string;
+  custom_measurements?: Record<string, number>;
+}
